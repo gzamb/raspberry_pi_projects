@@ -4,6 +4,7 @@
 Door Lock: System to control an electric door lock.
 """
 from time import sleep
+from .keypad import Keypad
 
 
 class AuthToken:
@@ -42,6 +43,19 @@ class DoorController:
         sleep(5) # sleep for 5 seconds
         # turn off led
         pass
+
+
+class DoorControllerLED:
+    from gpiozero import LED
+    red = LED(17)   # Change to whatever pin LED is hooked up
+
+    def send_open_pulse(self):
+        # turn on led
+        self.red.on()
+        # sleep for 5 seconds
+        sleep(5)
+        # turn off led
+        self.red.off()
 
 
 class KeyboardInput:

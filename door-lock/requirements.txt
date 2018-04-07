@@ -1,0 +1,2 @@
+gpiozero==1.4.1
+pigpio==1.40.post1
