@@ -33,10 +33,11 @@ class Keypad():
     
     def __init__(self):
         self.code = ''
+        print('Initializing Keypad class', self.code)
         GPIO.setmode(GPIO.BCM)
     
     def getKey(self):
-        
+        print('starting getKey')
         # Set all columns as output low
         for j in range(len(self.COLUMN)):
             GPIO.setup(self.COLUMN[j], GPIO.OUT)
@@ -55,7 +56,7 @@ class Keypad():
                 rowVal = i
                 
         # if rowVal is not 0 thru 3 then no button was pressed and we can exit
-        if rowVal < 0  or rowVal > 3:
+        if rowVal < 0 or rowVal > 3:
             self.exit()
             return
         
@@ -82,6 +83,7 @@ class Keypad():
 
         # Return the value of the key pressed
         self.exit()
+        print('finished getKey')
         return self.KEYPAD[rowVal][colVal]
 
     def get_input(self):
@@ -89,9 +91,13 @@ class Keypad():
             digit = None
             while digit is None:
                 digit = self.getKey()
-                print(digit)
+            print(digit)
             self.code += digit
         return self.code
+
+    def clear_code(self):
+        print(self.code)
+        self.code = ''
 
     def exit(self):
         # Reinitialize all rows and columns as input at exit

@@ -101,8 +101,9 @@ def main():
     door_controller = DoorControllerLED()  # DoorController()
 
     if authenticator.check(auth_input.get_input()):
-        print('got here')
         door_controller.send_open_pulse()
+
+    auth_input.clear_code()
 
 
 if __name__ == '__main__':
