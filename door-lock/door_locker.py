@@ -5,7 +5,7 @@ Door Lock: System to control an electric door lock.
 """
 from time import sleep
 # from .keypad import Keypad
-from .keypad_orginal import Keypad
+from keypad_orginal import Keypad
 
 
 class AuthToken:
@@ -54,8 +54,10 @@ class DoorControllerLED:
     red = LED(4)   # Change to whatever pin LED is hooked up
 
     def send_open_pulse(self):
+        print('i was called')
         # turn on led
         self.red.on()
+        print('wtf')
         # sleep for 5 seconds
         sleep(5)
         # turn off led
@@ -74,20 +76,21 @@ class KeyboardInput:
 class FileAuthentication:
     filename = 'secrets.txt'
 
-    def _check_file(self, user, secret):
+    def _check_file(self, secret):
         with open(self.filename, 'r') as f:
             for line in f.readlines():
-                name, secret_password = [x.strip() for x in line.rstrip('\n').split(',')]
-                if name == user and secret == secret_password:
+                secret_password = line.strip().rstrip('\n')
+                if secret == secret_password:
                     return True
             return False
 
     def check(self, token):
+        print(token)
         #print(f'checking input of "{token.user}", password: "{token.secret}", against system.')
-        print('checking password: "' + token.secret + '", against system.')
-        result = self._check_file(token.user, token.secret)
+        print('checking password: "' + token + '", against system.')
+        result = self._check_file(token)
         #print(f'authentication is: {result}')
-        print('authentication is: ' + result)
+        print('authentication is: ' + str(result))
         return result
 
 
@@ -98,6 +101,7 @@ def main():
     door_controller = DoorControllerLED()  # DoorController()
 
     if authenticator.check(auth_input.get_input()):
+        print('got here')
         door_controller.send_open_pulse()
 
 

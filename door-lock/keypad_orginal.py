@@ -89,6 +89,7 @@ class Keypad():
             digit = None
             while digit is None:
                 digit = self.getKey()
+                print(digit)
             self.code += digit
         return self.code
 
