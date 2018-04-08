@@ -17,6 +17,7 @@
 # #####################################################
 
 import RPi.GPIO as GPIO
+from time import sleep
 
 
 class Keypad():
@@ -87,11 +88,11 @@ class Keypad():
         return self.KEYPAD[rowVal][colVal]
 
     def get_input(self):
-        while len(self.code) < 4:
+        while len(self.code) == 4:
             digit = None
             while digit is None:
                 digit = self.getKey()
-            print(digit)
+            sleep(1)
             self.code += digit
         return self.code
 
