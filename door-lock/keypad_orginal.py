@@ -1,6 +1,6 @@
 # #####################################################
 # Python Library for 3x4 matrix keypad using
-# 7 of the avialable GPIO pins on the Raspberry Pi. 
+# 7 of the available GPIO pins on the Raspberry Pi.
 # 
 # This could easily be expanded to handle a 4x4 but I 
 # don't have one for testing. The KEYPAD constant 
@@ -20,8 +20,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 
-class Keypad():
-    # CONSTANTS   
+class Keypad:
     KEYPAD = [
         ['1', '2', '3'],
         ['4', '5', '6'],
@@ -29,17 +28,15 @@ class Keypad():
         ["*", '0', "#"]
     ]
 
-    ROW = [27,26,19,6]
-    COLUMN = [22,17,13]
-    
+    ROW = [27, 26, 19, 6]
+    COLUMN = [22, 17, 13]
+
     def __init__(self):
-        self.code = ''
         print('Initializing Keypad class')
-        print(self.code)
+        self.code = ''
         GPIO.setmode(GPIO.BCM)
     
-    def getKey(self):
-        print('starting getKey')
+    def get_key(self):
         # Set all columns as output low
         for j in range(len(self.COLUMN)):
             GPIO.setup(self.COLUMN[j], GPIO.OUT)
@@ -50,15 +47,15 @@ class Keypad():
             GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
         
         # Scan rows for pushed key/button
-        # A valid key press should set "rowVal"  between 0 and 3.
-        rowVal = -1
+        # A valid key press should set "row_val"  between 0 and 3.
+        row_val = -1
         for i in range(len(self.ROW)):
-            tmpRead = GPIO.input(self.ROW[i])
-            if tmpRead == 0:
-                rowVal = i
+            tmp_read = GPIO.input(self.ROW[i])
+            if tmp_read == 0:
+                row_val = i
                 
-        # if rowVal is not 0 thru 3 then no button was pressed and we can exit
-        if rowVal < 0 or rowVal > 3:
+        # if row_val is not 0 through 3 then no button was pressed and we can exit
+        if row_val < 0 or row_val > 3:
             self.exit()
             return
         
@@ -67,42 +64,39 @@ class Keypad():
                 GPIO.setup(self.COLUMN[j], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         
         # Switch the i-th row found from scan to output
-        GPIO.setup(self.ROW[rowVal], GPIO.OUT)
-        GPIO.output(self.ROW[rowVal], GPIO.HIGH)
+        GPIO.setup(self.ROW[row_val], GPIO.OUT)
+        GPIO.output(self.ROW[row_val], GPIO.HIGH)
 
         # Scan columns for still-pushed key/button
-        # A valid key press should set "colVal"  between 0 and 2.
-        colVal = -1
+        # A valid key press should set "col_val"  between 0 and 2.
+        col_val = -1
         for j in range(len(self.COLUMN)):
-            tmpRead = GPIO.input(self.COLUMN[j])
-            if tmpRead == 1:
-                colVal=j
+            tmp_read = GPIO.input(self.COLUMN[j])
+            if tmp_read == 1:
+                col_val=j
                 
-        # if colVal is not 0 thru 2 then no button was pressed and we can exit
-        if colVal < 0 or colVal > 2:
+        # if col_val is not 0 through 2 then no button was pressed and we can exit
+        if col_val < 0 or col_val > 2:
             self.exit()
             return
 
         # Return the value of the key pressed
         self.exit()
-        return self.KEYPAD[rowVal][colVal]
+        return self.KEYPAD[row_val][col_val]
 
     def get_input(self):
         while len(self.code) != 4:
             digit = None
             while digit is None:
-                digit = self.getKey()
+                digit = self.get_key()
             sleep(1)
-            print('------------------------------>pressed')
             self.code += digit
         return self.code
 
     def clear_code(self):
-        print('code is cleared', self.code)
         self.code = ''
 
     def exit(self):
-        print('finished getKey')
         # Reinitialize all rows and columns as input at exit
         for i in range(len(self.ROW)):
                 GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP) 
