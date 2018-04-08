@@ -18,8 +18,10 @@ class Keypad:
 
     # These should correspond to the actual GPIO pin
     # numbers that the keypad is hooked up to on the pi.
-    ROWS = [5, 6, 7, 8],
-    COLUMNS = [2, 3, 4],
+    #ROWS = [5, 6, 7, 8],
+    #COLUMNS = [2, 3, 4],
+    ROWS = [27, 6, 14, 26]
+    COLUMNS = [12, 22, 13]
 
     def __init__(self):
         # Nothing really goes here yet

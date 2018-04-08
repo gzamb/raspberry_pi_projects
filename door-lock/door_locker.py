@@ -30,10 +30,13 @@ class BasicAuthenticator:
     secret_password = '1234'
 
     def check(self, token):
-        print(f'checking input of "{token.user}", password: "{token.secret}", against '
-              f'secret_password "{self.secret_password}"')
+        #print(f'checking input of "{token.user}", password: "{token.secret}", against '
+        #      f'secret_password "{self.secret_password}"')
+        print('checking input of "' + token.user + '", password: "' + token.secret +
+                '", against secret password "' + self.secret_password + '"')
         result = token.secret == self.secret_password and token.user == self.user
-        print(f'authentication is: {result}')
+        #print(f'authentication is: {result}')
+        print('authentication is: ' + result)
         return result
 
 
@@ -79,9 +82,11 @@ class FileAuthentication:
             return False
 
     def check(self, token):
-        print(f'checking input of "{token.user}", password: "{token.secret}", against system.')
+        #print(f'checking input of "{token.user}", password: "{token.secret}", against system.')
+        print('checking input of "' + token.user + '", password: "' + token.secret + '", against system.')
         result = self._check_file(token.user, token.secret)
-        print(f'authentication is: {result}')
+        #print(f'authentication is: {result}')
+        print('authentication is: ' + result)
         return result
 
 
