@@ -4,12 +4,13 @@
 Door Lock: System to control an electric door lock.
 """
 from time import sleep
-from .keypad import Keypad
+# from .keypad import Keypad
+from .keypad_orginal import Keypad
 
 
 class AuthToken:
-    def __init__(self, user, secret):
-        self.user = user
+    def __init__(self, secret):
+        # self.user = user
         self.secret = secret
 
 
@@ -50,7 +51,7 @@ class DoorController:
 
 class DoorControllerLED:
     from gpiozero import LED
-    red = LED(17)   # Change to whatever pin LED is hooked up
+    red = LED(4)   # Change to whatever pin LED is hooked up
 
     def send_open_pulse(self):
         # turn on led
@@ -83,7 +84,7 @@ class FileAuthentication:
 
     def check(self, token):
         #print(f'checking input of "{token.user}", password: "{token.secret}", against system.')
-        print('checking input of "' + token.user + '", password: "' + token.secret + '", against system.')
+        print('checking password: "' + token.secret + '", against system.')
         result = self._check_file(token.user, token.secret)
         #print(f'authentication is: {result}')
         print('authentication is: ' + result)
@@ -91,9 +92,10 @@ class FileAuthentication:
 
 
 def main():
-    auth_input = KeyboardInput()            # TestInput()
+    auth_input = Keypad()
+    # auth_input = KeyboardInput()            # TestInput()
     authenticator = FileAuthentication()    # BasicAuthenticator()
-    door_controller = TestDoorController()  # DoorController()
+    door_controller = DoorControllerLED()  # DoorController()
 
     if authenticator.check(auth_input.get_input()):
         door_controller.send_open_pulse()

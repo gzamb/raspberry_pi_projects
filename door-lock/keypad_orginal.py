@@ -18,21 +18,21 @@
 
 import RPi.GPIO as GPIO
 
-class keypad():
+
+class Keypad():
     # CONSTANTS   
     KEYPAD = [
-    [1,2,3],
-    [4,5,6],
-    [7,8,9],
-    ["*",0,"#"]
+        ['1', '2', '3'],
+        ['4', '5', '6'],
+        ['7', '8', '9'],
+        ["*", '0', "#"]
     ]
-    
-    #ROW         = [18,23,24,25]
-    #COLUMN      = [4,17,22]
+
     ROW = [27,26,19,6]
     COLUMN = [22,17,13]
     
     def __init__(self):
+        self.code = ''
         GPIO.setmode(GPIO.BCM)
     
     def getKey(self):
@@ -83,22 +83,31 @@ class keypad():
         # Return the value of the key pressed
         self.exit()
         return self.KEYPAD[rowVal][colVal]
-        
+
+    def get_input(self):
+        while len(self.code) < 4:
+            digit = None
+            while digit is None:
+                digit = self.getKey()
+            self.code += digit
+        return self.code
+
     def exit(self):
         # Reinitialize all rows and columns as input at exit
         for i in range(len(self.ROW)):
                 GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP) 
         for j in range(len(self.COLUMN)):
                 GPIO.setup(self.COLUMN[j], GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        
-if __name__ == '__main__':
-    # Initialize the keypad class
-    kp = keypad()
-    
-    # Loop while waiting for a keypress
-    digit = None
-    while digit == None:
-        digit = kp.getKey()
-    
-    # Print the result
-    print(digit)
+
+
+# if __name__ == '__main__':
+#     # Initialize the keypad class
+#     kp = Keypad()
+#
+#     # Loop while waiting for a keypress
+#     digit = None
+#     while digit == None:
+#         digit = kp.getKey()
+#
+#     # Print the result
+#     print(digit)
