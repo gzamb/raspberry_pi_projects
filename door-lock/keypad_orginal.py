@@ -34,7 +34,8 @@ class Keypad():
     
     def __init__(self):
         self.code = ''
-        print('Initializing Keypad class', self.code)
+        print('Initializing Keypad class')
+        print(self.code)
         GPIO.setmode(GPIO.BCM)
     
     def getKey(self):
@@ -88,7 +89,7 @@ class Keypad():
         return self.KEYPAD[rowVal][colVal]
 
     def get_input(self):
-        while len(self.code) == 4:
+        while len(self.code) != 4:
             digit = None
             while digit is None:
                 digit = self.getKey()
@@ -97,7 +98,7 @@ class Keypad():
         return self.code
 
     def clear_code(self):
-        print(self.code)
+        print('code is cleared', self.code)
         self.code = ''
 
     def exit(self):
