@@ -85,7 +85,6 @@ class Keypad():
 
         # Return the value of the key pressed
         self.exit()
-        print('finished getKey')
         return self.KEYPAD[rowVal][colVal]
 
     def get_input(self):
@@ -94,6 +93,7 @@ class Keypad():
             while digit is None:
                 digit = self.getKey()
             sleep(1)
+            print('------------------------------>pressed')
             self.code += digit
         return self.code
 
@@ -102,21 +102,9 @@ class Keypad():
         self.code = ''
 
     def exit(self):
+        print('finished getKey')
         # Reinitialize all rows and columns as input at exit
         for i in range(len(self.ROW)):
                 GPIO.setup(self.ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP) 
         for j in range(len(self.COLUMN)):
                 GPIO.setup(self.COLUMN[j], GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-
-# if __name__ == '__main__':
-#     # Initialize the keypad class
-#     kp = Keypad()
-#
-#     # Loop while waiting for a keypress
-#     digit = None
-#     while digit == None:
-#         digit = kp.getKey()
-#
-#     # Print the result
-#     print(digit)

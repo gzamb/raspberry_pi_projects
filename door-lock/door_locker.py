@@ -4,7 +4,7 @@
 Door Lock: System to control an electric door lock.
 """
 from time import sleep
-# from .keypad import Keypad
+from gpiozero import LED
 from keypad_orginal import Keypad
 
 
@@ -50,8 +50,8 @@ class DoorController:
 
 
 class DoorControllerLED:
-    from gpiozero import LED
-    red = LED(4)   # Change to whatever pin LED is hooked up
+    def __init__(self):
+        self.red = LED(4)   # Change to whatever pin LED is hooked up
 
     def send_open_pulse(self):
         print('i was called')
@@ -64,13 +64,13 @@ class DoorControllerLED:
         self.red.off()
 
 
-class KeyboardInput:
-    def get_input(self):
-        print('checking for input')
-        user = input('Please enter your name: ')
-        password = input('Please enter your password: ')
-        auth_token = AuthToken(user, password)
-        return auth_token
+# class KeyboardInput:
+#     def get_input(self):
+#         print('checking for input')
+#         user = input('Please enter your name: ')
+#         password = input('Please enter your password: ')
+#         auth_token = AuthToken(user, password)
+#         return auth_token
 
 
 class FileAuthentication:
